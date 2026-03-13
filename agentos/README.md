@@ -75,5 +75,5 @@ You are encouraged to extend and modify the code to suit your own workflows.
 
 ## License
 
-The contents of this repository are licensed under the MIT License.  See the
+The contents of this repository are licensed under the Apache License 2.0.  See the
 `LICENSE` file for details.

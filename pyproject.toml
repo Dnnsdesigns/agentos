@@ -7,7 +7,7 @@ name = "agentos"
 version = "0.1.0"
 description = "A lightweight framework for building and managing autonomous AI agents"
 readme = "README.md"
-license = {file = "LICENSE"}
+license = {text = "Apache-2.0"}
 requires-python = ">=3.8"
 authors = [
     {name = "AgentOS Contributors", email = "contributors@agentos.dev"},
@@ -19,7 +19,7 @@ keywords = ["agents", "ai", "framework", "task-management", "automation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",

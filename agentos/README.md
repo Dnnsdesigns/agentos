@@ -31,17 +31,14 @@ extend or swap out implementations.
 
 ```
 agentos/
-├── README.md          – This file
-├── agentos/           – Python package containing the core framework
-│   ├── __init__.py    – Package initialiser
-│   ├── __main__.py    – CLI entrypoint for running AgentOS commands
-│   ├── agent.py       – Defines the `Agent` class
-│   ├── task.py        – Defines the `Task` class
-│   ├── manager.py     – Implements the `AgentManager`
-│   ├── standards.py   – Functions for discovering and injecting standards
-│   ├── spec.py        – A simple specification model
-│   └── utils.py       – Miscellaneous helper functions
-
+├── __init__.py    – Package initialiser
+├── __main__.py    – CLI entrypoint for running AgentOS commands
+├── agent.py       – Defines the `Agent` class
+├── task.py        – Defines the `Task` class
+├── manager.py     – Implements the `AgentManager`
+├── standards.py   – Functions for discovering and injecting standards
+├── spec.py        – A simple specification model
+└── utils.py       – Miscellaneous helper functions
 ```
 
 This repository is a starting point – it demonstrates one way to organise an
@@ -53,14 +50,14 @@ You are encouraged to extend and modify the code to suit your own workflows.
 1. Install the package locally:
 
    ```bash
-   cd agentos
+   cd ..  # Go to parent directory
    python3 -m pip install -e .
    ```
 
 2. Discover coding standards from a codebase:
 
    ```bash
-   agentos discover --path /path/to/your/project
+   python -m agentos discover --path /path/to/your/project
    ```
 
    This command will produce a JSON report of common patterns found in your
@@ -69,11 +66,11 @@ You are encouraged to extend and modify the code to suit your own workflows.
 3. Generate a specification and inject standards:
 
    ```bash
-   agentos spec --title "Build new feature" --description "Implement a user login"
-   agentos inject --spec spec.md --standards standards.json
+   python -m agentos spec --title "Build new feature" --description "Implement a user login"
+   python -m agentos inject --spec spec.md --standards standards.json
    ```
 
 ## License
 
 The contents of this repository are licensed under the Apache License 2.0.  See the
-`LICENSE` file for details.
+`../LICENSE` file for details.

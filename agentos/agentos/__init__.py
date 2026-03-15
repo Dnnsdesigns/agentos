@@ -38,7 +38,6 @@ See the `README.md` for a more complete overview.
 
 from importlib import metadata
 
-
 __all__ = [
     "agent",
     "task",
@@ -50,10 +49,10 @@ __all__ = [
 
 # Expose top‑level classes for convenience
 from .agent import Agent  # noqa: F401
-from .task import Task  # noqa: F401
 from .manager import AgentManager  # noqa: F401
 from .spec import Spec  # noqa: F401
 from .standards import discover_standards, inject_standards  # noqa: F401
+from .task import Task  # noqa: F401
 
 
 def _get_version() -> str:

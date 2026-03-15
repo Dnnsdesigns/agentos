@@ -47,6 +47,11 @@ class Agent:
         self.description: Optional[str] = description
         self._tasks: List[Task] = []
 
+    @property
+    def tasks(self) -> List[Task]:
+        """Return a read‑only view of the queued tasks."""
+        return list(self._tasks)
+
     def add_task(
         self, task: Task | Callable[..., Any], *args: Any, description: Optional[str] = None, **kwargs: Any
     ) -> None:

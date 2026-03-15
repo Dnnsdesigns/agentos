@@ -69,3 +69,38 @@ class Spec:
     def add_item(self, item: str) -> None:
         """Add a new item to the specification."""
         self.items.append(item)
+
+    def to_dict(self) -> dict:
+        """Serialize the specification to a plain dictionary.
+
+        Returns
+        -------
+        dict
+            A dictionary representation of this :class:`Spec`.
+        """
+        return {
+            "title": self.title,
+            "description": self.description,
+            "items": list(self.items),
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Spec":
+        """Create a :class:`Spec` from a dictionary.
+
+        Parameters
+        ----------
+        data: dict
+            A dictionary with keys ``title``, ``description`` (optional),
+            and ``items`` (optional).
+
+        Returns
+        -------
+        Spec
+            A new :class:`Spec` instance populated from *data*.
+        """
+        return cls(
+            title=data["title"],
+            description=data.get("description"),
+            items=list(data.get("items", [])),
+        )

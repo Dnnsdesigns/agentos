@@ -47,8 +47,17 @@ class Agent:
         self.description: Optional[str] = description
         self._tasks: List[Task] = []
 
+    @property
+    def tasks(self) -> List[Task]:
+        """Return a read-only view of the queued tasks."""
+        return list(self._tasks)
+
     def add_task(
-        self, task: Task | Callable[..., Any], *args: Any, description: Optional[str] = None, **kwargs: Any
+        self,
+        task: Task | Callable[..., Any],
+        *args: Any,
+        description: Optional[str] = None,
+        **kwargs: Any,
     ) -> None:
         """Add a new task to the agent’s queue.
 
@@ -73,7 +82,14 @@ class Agent:
         if isinstance(task, Task):
             self._tasks.append(task)
         else:
-            self._tasks.append(Task(description=description or task.__name__, func=task, args=args, kwargs=kwargs))
+            self._tasks.append(
+                Task(
+                    description=description or task.__name__,
+                    func=task,
+                    args=args,
+                    kwargs=kwargs,
+                )
+            )
 
     def run_tasks(self) -> List[Any]:
         """Run all tasks sequentially and return their results.
@@ -110,7 +126,11 @@ class Agent:
                 results.append(await task.func(*task.args, **task.kwargs))
             else:
                 # Run sync function in executor to avoid blocking the event loop.
-                results.append(await loop.run_in_executor(None, task.func, *task.args, **task.kwargs))
+                results.append(
+                    await loop.run_in_executor(
+                        None, task.func, *task.args, **task.kwargs
+                    )
+                )
         self._tasks.clear()
         return results
 

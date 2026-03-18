@@ -15,7 +15,7 @@ class TestSpec(unittest.TestCase):
         self.assertEqual(spec.description, "A test specification")
         self.assertEqual(spec.items, [])
 
-    def test_spec_with_steps(self):
+    def test_spec_with_items(self):
         """Test spec with predefined items."""
         items = ["Step 1", "Step 2", "Step 3"]
         spec = Spec(title="TestSpec", description="A test spec", items=items)

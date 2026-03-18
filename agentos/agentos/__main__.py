@@ -25,10 +25,10 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from pathlib import Path
+from typing import Callable
 
-from .standards import discover_standards, inject_standards
 from .spec import Spec
+from .standards import discover_standards, inject_standards
 
 
 def _cmd_discover(args: argparse.Namespace) -> int:
@@ -86,7 +86,9 @@ def main(argv: list[str] | None = None) -> int:
     p_spec.add_argument("--title", required=True, help="Title of the specification")
     p_spec.add_argument("--description", help="Description of the specification")
     p_spec.add_argument(
-        "--item", action="append", help="Add an item to the specification (can be repeated)"
+        "--item",
+        action="append",
+        help="Add an item to the specification (can be repeated)",
     )
     p_spec.add_argument("--output", help="File to write the specification")
     p_spec.set_defaults(func=_cmd_spec)
@@ -95,15 +97,21 @@ def main(argv: list[str] | None = None) -> int:
     p_inject = subparsers.add_parser(
         "inject", help="Inject standards into an existing specification"
     )
-    p_inject.add_argument("--spec", required=True, help="Path to the specification file")
-    p_inject.add_argument("--standards", required=True, help="Path to the standards JSON file")
     p_inject.add_argument(
-        "--output", help="File to write the updated specification.  If omitted, print to stdout."
+        "--spec", required=True, help="Path to the specification file"
+    )
+    p_inject.add_argument(
+        "--standards", required=True, help="Path to the standards JSON file"
+    )
+    p_inject.add_argument(
+        "--output",
+        help="File to write the updated specification.  If omitted, print to stdout.",
     )
     p_inject.set_defaults(func=_cmd_inject)
 
     args = parser.parse_args(argv)
-    return args.func(args)
+    cmd: Callable[[argparse.Namespace], int] = args.func
+    return cmd(args)
 
 
 if __name__ == "__main__":

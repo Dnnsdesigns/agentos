@@ -1,4 +1,5 @@
 """Tests for the Task class."""
+
 import unittest
 
 from agentos.task import Task
@@ -9,6 +10,7 @@ class TestTask(unittest.TestCase):
 
     def test_task_initialization(self):
         """Test that task initializes correctly."""
+
         def dummy_func():
             return "test"
 
@@ -20,6 +22,7 @@ class TestTask(unittest.TestCase):
 
     def test_task_execution_success(self):
         """Test successful task execution."""
+
         def add_numbers(a, b):
             return a + b
 
@@ -30,6 +33,7 @@ class TestTask(unittest.TestCase):
 
     def test_task_execution_with_exception(self):
         """Test task execution that raises an exception."""
+
         def failing_func():
             raise ValueError("Test error")
 
@@ -41,6 +45,7 @@ class TestTask(unittest.TestCase):
 
     def test_task_with_kwargs(self):
         """Test task execution with keyword arguments."""
+
         def multiply(a, b, multiplier=1):
             return (a + b) * multiplier
 

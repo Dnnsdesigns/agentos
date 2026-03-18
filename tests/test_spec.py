@@ -1,4 +1,5 @@
 """Tests for the Spec class."""
+
 import unittest
 
 from agentos.spec import Spec

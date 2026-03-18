@@ -69,7 +69,7 @@ class Agent:
         *args: Any
             Positional arguments to pass to the function when wrapping a
             callable.
-        description: str, optional
+        description: str, optionalAccept both changes
             A description of what the task does.  Ignored if `task` is
             already a `Task` instance.
         **kwargs: Any
@@ -78,7 +78,14 @@ class Agent:
         if isinstance(task, Task):
             self._tasks.append(task)
         else:
-            self._tasks.append(Task(description=description or task.__name__, func=task, args=args, kwargs=kwargs))
+            self._tasks.append(
+                Task(
+                    description=description or task.__name__,
+                    func=task,
+                    args=args,
+                    kwargs=kwargs,
+                )
+            )
 
     def run_tasks(self) -> List[Any]:
         """Run all tasks sequentially and return their results.
@@ -115,7 +122,11 @@ class Agent:
                 results.append(await task.func(*task.args, **task.kwargs))
             else:
                 # Run sync function in executor to avoid blocking the event loop.
-                results.append(await loop.run_in_executor(None, task.func, *task.args, **task.kwargs))
+                results.append(
+                    await loop.run_in_executor(
+                        None, task.func, *task.args, **task.kwargs
+                    )
+                )
         self._tasks.clear()
         return results
 

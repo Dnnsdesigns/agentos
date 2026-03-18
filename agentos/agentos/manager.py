@@ -74,6 +74,7 @@ class AgentManager:
 
     def _start_worker(self) -> None:
         """Start a background thread to process tasks when not using asyncio."""
+
         def worker() -> None:
             while not self._stop_event.is_set():
                 task_entry = None
@@ -126,11 +127,13 @@ class AgentManager:
         asynchronous operation.  It adds the task to the priority queue
         and immediately returns.
         """
+
         # Acquire lock synchronously because heapq is not thread safe.
         def sync_push() -> None:
             with self._lock:
                 heapq.heappush(self._task_queue, (priority, self._counter, task))
                 self._counter += 1
+
         loop = asyncio.get_event_loop()
         await loop.run_in_executor(None, sync_push)
 
@@ -180,6 +183,7 @@ class AgentManager:
         region.  Here, we simply use the Python `id` of the mmap object as
         a stand‑in to demonstrate the API shape.
         """
+
         handle: Any
         iova: int
         length: int
@@ -233,6 +237,7 @@ class AgentManager:
         tile_mask: int
             Bitmask indicating which NPU tiles are eligible to execute the node.
         """
+
         op: str
         inputs: List[int]
         outputs: List[int]

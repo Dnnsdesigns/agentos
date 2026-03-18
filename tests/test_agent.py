@@ -1,4 +1,5 @@
 """Tests for the Agent class."""
+
 import asyncio
 import unittest
 from unittest.mock import Mock
@@ -22,6 +23,7 @@ class TestAgent(unittest.TestCase):
 
     def test_queue_task(self):
         """Test queuing a task."""
+
         def dummy_func():
             return "test"
 
@@ -50,6 +52,7 @@ class TestAgent(unittest.TestCase):
 
     def test_run_async(self):
         """Test asynchronous task execution."""
+
         async def async_task(value):
             await asyncio.sleep(0.01)
             return value * 2

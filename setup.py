@@ -11,7 +11,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dnnsdesigns/agentos",
-    packages=find_packages(),
+    package_dir={"": "agentos"},
+    packages=find_packages(where="agentos"),
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",

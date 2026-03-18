@@ -45,9 +45,10 @@ agentos = "agentos.__main__:main"
 [tool.setuptools]
 zip-safe = false
 include-package-data = true
+package-dir = {"" = "agentos"}
 
 [tool.setuptools.packages.find]
-where = ["."]
+where = ["agentos"]
 include = ["agentos*"]
 
 [tool.setuptools.package-data]

@@ -10,7 +10,7 @@ via :meth:`run` or awaited asynchronously when used through an `Agent`.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, Iterable, Optional, Tuple
+from typing import Any, Callable, Dict, Tuple
 
 
 @dataclass

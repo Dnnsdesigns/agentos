@@ -2,7 +2,6 @@
 
 import asyncio
 import unittest
-from unittest.mock import Mock
 
 from agentos.agent import Agent
 from agentos.task import Task

@@ -37,13 +37,13 @@ class TestSpec(unittest.TestCase):
         spec = Spec(
             title="TestSpec",
             description="A test specification",
-            items=["Step 1", "Step 2"]
+            items=["Step 1", "Step 2"],
         )
 
         expected_dict = {
             "title": "TestSpec",
             "description": "A test specification",
-            "items": ["Step 1", "Step 2"]
+            "items": ["Step 1", "Step 2"],
         }
 
         self.assertEqual(spec.to_dict(), expected_dict)
@@ -53,7 +53,7 @@ class TestSpec(unittest.TestCase):
         data = {
             "title": "TestSpec",
             "description": "A test specification",
-            "items": ["Step 1", "Step 2"]
+            "items": ["Step 1", "Step 2"],
         }
 
         spec = Spec.from_dict(data)

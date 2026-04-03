@@ -84,4 +84,4 @@ Thank you for your interest in contributing to AgentOS! We welcome contributions
 
 ## License
 
-By contributing to AgentOS, you agree that your contributions will be licensed under the MIT License.
+By contributing to AgentOS, you agree that your contributions will be licensed under the Apache License 2.0.

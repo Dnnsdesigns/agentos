@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-04-06
+
 ### Added
 - Initial release of AgentOS framework
 - Agent abstraction with task queuing and execution
@@ -32,3 +34,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 - N/A (initial release)
+
+[0.1.0]: https://github.com/Dnnsdesigns/agentos/releases/tag/v0.1.0

@@ -10,7 +10,7 @@ system.  This module defines the class and its associated methods.
 from __future__ import annotations
 
 import asyncio
-from typing import Any, Callable, List, Optional, Tuple
+from typing import Any, Callable, List, Optional, Union
 
 from .task import Task
 
@@ -49,12 +49,12 @@ class Agent:
 
     @property
     def tasks(self) -> List[Task]:
-        """Return a read-only view of the queued tasks."""
+        """Return a read‑only view of the queued tasks."""
         return list(self._tasks)
 
     def add_task(
         self,
-        task: Task | Callable[..., Any],
+        task: Union[Task, Callable[..., Any]],
         *args: Any,
         description: Optional[str] = None,
         **kwargs: Any,

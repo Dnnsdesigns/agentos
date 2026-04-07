@@ -19,10 +19,9 @@ standards and appends a formatted section summarising the standards.
 from __future__ import annotations
 
 import ast
-import os
 import re
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, List
 
 
 def discover_standards(path: str | Path) -> Dict[str, object]:

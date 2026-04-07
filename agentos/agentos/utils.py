@@ -8,9 +8,8 @@ minimal dependencies.
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
-from typing import Iterable, List
+from typing import List
 
 
 def list_python_files(path: str | Path) -> List[str]:

@@ -14,7 +14,9 @@ class TestTask(unittest.TestCase):
         def dummy_func():
             return "test"
 
-        task = Task(description="dummy", func=dummy_func, args=(1, 2), kwargs={"key": "value"})
+        task = Task(
+            description="dummy", func=dummy_func, args=(1, 2), kwargs={"key": "value"}
+        )
 
         self.assertEqual(task.func, dummy_func)
         self.assertEqual(task.args, (1, 2))
@@ -49,7 +51,9 @@ class TestTask(unittest.TestCase):
         def multiply(a, b, multiplier=1):
             return (a + b) * multiplier
 
-        task = Task(description="multiply", func=multiply, args=(2, 3), kwargs={"multiplier": 4})
+        task = Task(
+            description="multiply", func=multiply, args=(2, 3), kwargs={"multiplier": 4}
+        )
         result = task.run()
 
         self.assertEqual(result, 20)  # (2+3) * 4 = 20

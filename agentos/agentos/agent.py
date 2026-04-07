@@ -10,7 +10,7 @@ system.  This module defines the class and its associated methods.
 from __future__ import annotations
 
 import asyncio
-from typing import Any, Callable, List, Optional, Union
+from typing import Any, Callable, List, Optional, Tuple, Union
 
 from .task import Task
 

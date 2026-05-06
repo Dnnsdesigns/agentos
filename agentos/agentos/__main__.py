@@ -18,6 +18,10 @@ Create a new specification::
 Inject standards into a spec file::
 
     python -m agentos inject --spec spec.md --standards standards.json --output spec_with_standards.md
+
+Start the GitHub Copilot Extension server::
+
+    python -m agentos copilot-serve --port 3000 --secret $WEBHOOK_SECRET
 """
 
 from __future__ import annotations
@@ -71,6 +75,19 @@ def _cmd_inject(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_copilot_serve(args: argparse.Namespace) -> int:
+    from .copilot.server import main as copilot_main
+
+    return copilot_main(
+        [
+            "--host", args.host,
+            "--port", str(args.port),
+            *(["--secret", args.secret] if args.secret else []),
+            *(["--reload"] if args.reload else []),
+        ]
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="AgentOS command‑line interface")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -108,6 +125,34 @@ def main(argv: list[str] | None = None) -> int:
         help="File to write the updated specification.  If omitted, print to stdout.",
     )
     p_inject.set_defaults(func=_cmd_inject)
+
+    # copilot-serve
+    p_copilot = subparsers.add_parser(
+        "copilot-serve",
+        help="Start the GitHub Copilot Extension server",
+    )
+    p_copilot.add_argument(
+        "--host",
+        default="0.0.0.0",
+        help="Host address to bind (default: 0.0.0.0)",
+    )
+    p_copilot.add_argument(
+        "--port",
+        type=int,
+        default=3000,
+        help="TCP port to listen on (default: 3000)",
+    )
+    p_copilot.add_argument(
+        "--secret",
+        default=None,
+        help="Webhook secret for signature verification (optional)",
+    )
+    p_copilot.add_argument(
+        "--reload",
+        action="store_true",
+        help="Enable auto-reload for development",
+    )
+    p_copilot.set_defaults(func=_cmd_copilot_serve)
 
     args = parser.parse_args(argv)
     cmd: Callable[[argparse.Namespace], int] = args.func

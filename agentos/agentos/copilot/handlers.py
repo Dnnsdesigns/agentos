@@ -94,7 +94,7 @@ def handle_discover(intent: DiscoverIntent) -> Chunks:
     try:
         standards = discover_standards(intent.path)
     except Exception as exc:
-        yield f"⚠️ Error scanning `{intent.path}`: {exc}\n"
+        yield f"⚠️ Error scanning `{intent.path}` ({type(exc).__name__}). Check the path and try again.\n"
         return
 
     yield f"## Coding Standards – `{intent.path}`\n\n"
@@ -146,14 +146,14 @@ def handle_inject(intent: InjectIntent) -> Chunks:
         with open(intent.spec_path, "r", encoding="utf-8") as f:
             spec_text = f.read()
     except OSError as exc:
-        yield f"⚠️ Cannot open spec file `{intent.spec_path}`: {exc}\n"
+        yield f"⚠️ Cannot open spec file `{intent.spec_path}` ({type(exc).__name__}). Check the path and try again.\n"
         return
 
     try:
         with open(intent.standards_path, "r", encoding="utf-8") as f:
             standards = json.load(f)
     except (OSError, json.JSONDecodeError) as exc:
-        yield f"⚠️ Cannot load standards file `{intent.standards_path}`: {exc}\n"
+        yield f"⚠️ Cannot load standards file `{intent.standards_path}` ({type(exc).__name__}). Check the path and try again.\n"
         return
 
     result = inject_standards(spec_text, standards)
@@ -194,8 +194,9 @@ def handle_run(intent: RunIntent) -> Chunks:
         return
 
     # Restrict builtins available to user code to a safe subset.
+    _builtins_obj = __builtins__ if not isinstance(__builtins__, dict) else type("_B", (), __builtins__)()
     _SAFE_BUILTINS = {
-        name: getattr(__builtins__ if isinstance(__builtins__, dict) else __builtins__, name, None)
+        name: getattr(_builtins_obj, name)
         for name in (
             "abs", "all", "any", "bin", "bool", "bytearray", "bytes", "callable",
             "chr", "dict", "dir", "divmod", "enumerate", "filter", "float",
@@ -205,15 +206,14 @@ def handle_run(intent: RunIntent) -> Chunks:
             "repr", "reversed", "round", "set", "setattr", "slice", "sorted",
             "str", "sum", "tuple", "type", "zip",
         )
-        if getattr(__builtins__ if isinstance(__builtins__, dict) else __builtins__, name, None)
-        is not None
+        if hasattr(_builtins_obj, name)
     }
 
     namespace: dict = {"__builtins__": _SAFE_BUILTINS}
     try:
         exec(intent.code, namespace)  # noqa: S102
     except Exception as exc:
-        yield f"⚠️ Error compiling code: {type(exc).__name__}: {exc}\n"
+        yield f"⚠️ Error compiling code ({type(exc).__name__}). Check your syntax and try again.\n"
         return
 
     run_func = namespace.get("run")
@@ -229,7 +229,7 @@ def handle_run(intent: RunIntent) -> Chunks:
     try:
         results = agent.run_tasks()
     except Exception as exc:
-        yield f"⚠️ Task raised an exception: {type(exc).__name__}: {exc}\n"
+        yield f"⚠️ Task raised an exception ({type(exc).__name__}). Check your code and try again.\n"
         return
 
     for i, result in enumerate(results):

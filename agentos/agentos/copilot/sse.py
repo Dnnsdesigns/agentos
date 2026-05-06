@@ -98,5 +98,5 @@ async def stream_response(chunks: Iterable[str]) -> AsyncGenerator[str, None]:
         # Catch any unexpected exception from a handler generator and surface
         # a sanitized error message rather than letting a raw traceback
         # propagate into the response stream.
-        yield sse_text(f"⚠️ Internal error: {type(exc).__name__}: {exc}\n")
+        yield sse_text(f"⚠️ Internal error ({type(exc).__name__}). Please try again.\n")
     yield sse_done()

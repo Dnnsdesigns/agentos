@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `ExplorerAgent` – a specialised `Agent` subclass that traverses directory
+  trees to discover files.  Supports filtering by file extension or
+  `fnmatch`‑style pattern, recursive/flat traversal, and optional directory
+  inclusion.
+- `FileInfo` – a dataclass returned by `ExplorerAgent.explore()` holding the
+  path, name, extension, size, and directory flag for each discovered entry.
+- `ExplorerAgent.queue_file_tasks()` – convenience method that explores a
+  directory and queues a handler `Task` for every discovered entry.
+- Both `ExplorerAgent` and `FileInfo` are now exported from the top‑level
+  `agentos` package.
+
 ## [0.1.0] - 2026-04-06
 
 ### Added

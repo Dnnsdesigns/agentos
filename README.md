@@ -14,6 +14,10 @@ extend or swap out implementations.
 
 * **Agent abstraction** – Define agents with names, descriptions, and a queue of
   tasks to run.  Agents can be extended to add custom behaviours.
+* **Explorer agent** – `ExplorerAgent` is a specialised `Agent` that walks
+  directory trees, discovers files, and can automatically queue handler tasks
+  for every match.  Filter by extension list or `fnmatch`‑style pattern;
+  choose recursive or flat traversal; optionally include directories.
 * **Task management** – Represent discrete units of work as `Task` objects.
   Tasks can wrap arbitrary callables and are executed in the order they are
   queued.
@@ -51,6 +55,27 @@ manager.add_agent(agent)
 manager.run()
 ```
 
+### Explorer agents
+
+`ExplorerAgent` is a specialised agent for traversing directory trees:
+
+```python
+from agentos import ExplorerAgent
+
+# Collect all Python files under a project root
+agent = ExplorerAgent(name="Indexer", root_path="/my/project")
+py_files = agent.explore(extensions=[".py"])
+for info in py_files:
+    print(info.path, info.size)
+
+# Queue a handler task for each discovered file and run them
+def analyse(info):
+    print(f"Analysing {info.path}")
+
+agent.queue_file_tasks(analyse, extensions=[".py"])
+agent.run_tasks()
+```
+
 ## Project Layout
 
 ```
@@ -60,6 +85,7 @@ agentos/
 │   ├── __init__.py    – Package initialiser
 │   ├── __main__.py    – CLI entrypoint for running AgentOS commands
 │   ├── agent.py       – Defines the `Agent` class
+│   ├── explorer.py    – Defines the `ExplorerAgent` and `FileInfo` classes
 │   ├── task.py        – Defines the `Task` class
 │   ├── manager.py     – Implements the `AgentManager`
 │   ├── standards.py   – Functions for discovering and injecting standards

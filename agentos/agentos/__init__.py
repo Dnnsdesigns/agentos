@@ -7,6 +7,10 @@ projects.  The most important abstractions are:
 
 * :class:`agentos.agent.Agent` – represents a single agent with a name,
   description and a task queue.
+* :class:`agentos.explorer.ExplorerAgent` – an agent specialised for walking
+  directory trees and discovering files.
+* :class:`agentos.explorer.FileInfo` – metadata about a single filesystem
+  entry returned by :class:`ExplorerAgent`.
 * :class:`agentos.task.Task` – encapsulates a unit of work to be executed.
 * :class:`agentos.manager.AgentManager` – coordinates multiple agents and
   schedules tasks across them.
@@ -40,6 +44,7 @@ from importlib import metadata
 
 __all__ = [
     "agent",
+    "explorer",
     "task",
     "manager",
     "standards",
@@ -49,6 +54,7 @@ __all__ = [
 
 # Expose top‑level classes for convenience
 from .agent import Agent  # noqa: F401
+from .explorer import ExplorerAgent, FileInfo  # noqa: F401
 from .manager import AgentManager  # noqa: F401
 from .spec import Spec  # noqa: F401
 from .standards import discover_standards, inject_standards  # noqa: F401

@@ -91,6 +91,12 @@ async def stream_response(chunks: Iterable[str]) -> AsyncGenerator[str, None]:
     >>> len(frames)
     3
     """
-    for chunk in chunks:
-        yield sse_text(chunk)
+    try:
+        for chunk in chunks:
+            yield sse_text(chunk)
+    except Exception as exc:
+        # Catch any unexpected exception from a handler generator and surface
+        # a sanitized error message rather than letting a raw traceback
+        # propagate into the response stream.
+        yield sse_text(f"⚠️ Internal error: {type(exc).__name__}: {exc}\n")
     yield sse_done()

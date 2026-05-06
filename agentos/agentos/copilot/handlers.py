@@ -24,7 +24,6 @@ Handlers summary
 from __future__ import annotations
 
 import json
-import traceback
 from typing import Generator, Iterable
 
 from ..spec import Spec
@@ -194,11 +193,27 @@ def handle_run(intent: RunIntent) -> Chunks:
         yield "⚠️ No code provided. Use `code=\"def run(): return 42\"`.\n"
         return
 
-    namespace: dict = {}
+    # Restrict builtins available to user code to a safe subset.
+    _SAFE_BUILTINS = {
+        name: getattr(__builtins__ if isinstance(__builtins__, dict) else __builtins__, name, None)
+        for name in (
+            "abs", "all", "any", "bin", "bool", "bytearray", "bytes", "callable",
+            "chr", "dict", "dir", "divmod", "enumerate", "filter", "float",
+            "format", "frozenset", "getattr", "hasattr", "hash", "hex", "int",
+            "isinstance", "issubclass", "iter", "len", "list", "map", "max",
+            "min", "next", "object", "oct", "ord", "pow", "print", "range",
+            "repr", "reversed", "round", "set", "setattr", "slice", "sorted",
+            "str", "sum", "tuple", "type", "zip",
+        )
+        if getattr(__builtins__ if isinstance(__builtins__, dict) else __builtins__, name, None)
+        is not None
+    }
+
+    namespace: dict = {"__builtins__": _SAFE_BUILTINS}
     try:
         exec(intent.code, namespace)  # noqa: S102
-    except Exception:
-        yield f"⚠️ Error compiling code:\n```\n{traceback.format_exc()}```\n"
+    except Exception as exc:
+        yield f"⚠️ Error compiling code: {type(exc).__name__}: {exc}\n"
         return
 
     run_func = namespace.get("run")
@@ -213,8 +228,8 @@ def handle_run(intent: RunIntent) -> Chunks:
     yield f"▶ Running agent **{intent.agent_name}** …\n\n"
     try:
         results = agent.run_tasks()
-    except Exception:
-        yield f"⚠️ Task raised an exception:\n```\n{traceback.format_exc()}```\n"
+    except Exception as exc:
+        yield f"⚠️ Task raised an exception: {type(exc).__name__}: {exc}\n"
         return
 
     for i, result in enumerate(results):
